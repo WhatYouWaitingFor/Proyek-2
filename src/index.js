@@ -1,5 +1,5 @@
 const API_BASE_URL = 'https://notes-api.dicoding.dev/v2';
-
+import "./styles.css"
 // Fungsi untuk mengambil catatan non-archived
 async function fetchNotes() {
   try {

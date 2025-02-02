@@ -1,31 +1,48 @@
-const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
 
 module.exports = {
   entry: './src/index.js',
   output: {
-    filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js'
   },
+  mode: 'production',
   module: {
     rules: [
+      /* style and css loader */
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader'
+          }
+        ]
       },
-    ],
+      /* babel loader */
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env']
+            }
+          }
+        ]
+      }
+    ]
   },
+  /* plugin */
   plugins: [
+    /* HTML Webpack Plugin */
     new HtmlWebpackPlugin({
-      template: './src/index.html',
-    }),
-  ],
-  devServer: {
-    static: {
-      directory: path.join(__dirname, 'dist'), // Ganti contentBase dengan static.directory
-    },
-    compress: true,
-    port: 9000,
-  },
-  mode: 'development',
+      template: './src/template.html',
+      filename: 'index.html'
+    })
+  ]
 };
